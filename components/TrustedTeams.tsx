@@ -8,15 +8,15 @@ export function TrustedTeams() {
     <section className="py-10 md:py-16">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Heading */}
-        <motion.h3
+        <motion.h2
           initial={{ opacity: 0, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "200px" }}
           transition={{ duration: 0.5 }}
-          className="text-center text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-white mb-8 sm:mb-10"
+          className="text-center text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-zinc-900 dark:text-white mb-8 sm:mb-10"
         >
           Trusted by Teams
-        </motion.h3>
+        </motion.h2>
 
         {/* Logos container */}
         <motion.div

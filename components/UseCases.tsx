@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Card3DCanvas, ModelType } from "./Card3DCanvas";
 
 interface CardProps {
   title: string;
@@ -9,35 +10,39 @@ interface CardProps {
   align: "top" | "bottom";
   variant: "subtle" | "vibrant";
   delay: number;
+  modelType: ModelType;
 }
 
 const cardsData: CardProps[] = [
   {
     title: "Ai/LLM Checkpoint Savings",
     description:
-      "Ai/LLM gives developeed engineering, high performane and checkpoint cores.",
+      "Ai/LLM gives developed engineering, high performance and checkpoint cores.",
     metric: "[LATENCY: 0.1ms]",
     align: "bottom",
     variant: "subtle",
     delay: 0.1,
+    modelType: "checkpoint",
   },
   {
-    title: "Ai/LLM Checkpoint Savings",
+    title: "High-Throughput NVMe Pool",
     description:
-      "Ai/LLM gives developeed engineering, high performane and checkpoint cores.",
-    metric: "[LATENCY: 0.1ms]",
+      "Multi-writer shared flash tier delivering local NVMe speed with multi-node elasticity.",
+    metric: "[THROUGHPUT: 12.8 TB/s]",
     align: "top",
     variant: "vibrant",
     delay: 0.2,
+    modelType: "storage",
   },
   {
-    title: "Ai/LLM Checkpoint Savings",
+    title: "Unified S3 & POSIX Pipeline",
     description:
-      "Ai/LLM gives developeed engineering, high performane and checkpoint cores.",
-    metric: "[LATENCY: 0.1ms]",
+      "Direct memory access bridging object storage with local cache for zero-stall pipelines.",
+    metric: "[IOPS: 10M+]",
     align: "bottom",
     variant: "subtle",
     delay: 0.3,
+    modelType: "pipeline",
   },
 ];
 
@@ -52,7 +57,7 @@ export function UseCases() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "250px" }}
             transition={{ duration: 0.5 }}
-            className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white"
+            className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-zinc-900 dark:text-white"
           >
             Use Case / Value
           </motion.h2>
@@ -76,6 +81,7 @@ function UseCaseCard({
   align,
   variant,
   delay,
+  modelType,
 }: CardProps) {
   const isVibrant = variant === "vibrant";
 
@@ -86,9 +92,7 @@ function UseCaseCard({
       viewport={{ once: true, margin: "250px" }}
       transition={{ duration: 0.6, delay }}
       whileHover={{ y: -6, transition: { duration: 0.2 } }}
-      className={`relative min-h-[440px] sm:min-h-[470px] md:min-h-[500px] rounded-[30px] p-7 sm:p-8 flex flex-col transition-all duration-300 overflow-hidden shadow-lg ${
-        align === "bottom" ? "justify-end" : "justify-start"
-      } ${
+      className={`relative min-h-[480px] sm:min-h-[510px] md:min-h-[540px] rounded-[30px] p-6 sm:p-8 flex flex-col justify-between transition-all duration-300 overflow-hidden shadow-lg ${
         isVibrant
           ? // Vibrant electric violet card (matches card 2 in both dark and light mode)
             "bg-gradient-to-b from-[#5c1ee4] via-[#6a25ee] to-[#7b32f5] text-white shadow-[0_12px_36px_rgba(92,30,228,0.35)] border border-purple-400/20"
@@ -108,43 +112,93 @@ function UseCaseCard({
         }`}
       />
 
-      {/* Content Block */}
-      <div className="relative z-10 space-y-3">
-        {/* Title */}
-        <h3
-          className={`text-xl sm:text-2xl font-bold tracking-tight leading-snug ${
-            isVibrant
-              ? "text-white"
-              : "text-[#180e32] dark:text-white"
-          }`}
-        >
-          {title}
-        </h3>
+      {align === "bottom" ? (
+        <>
+          {/* 3D Model in free top space */}
+          <div className="w-full h-[220px] sm:h-[240px] relative z-10 flex items-center justify-center select-none -mt-1 mb-2">
+            <Card3DCanvas type={modelType} isVibrant={isVibrant} />
+          </div>
 
-        {/* Description */}
-        <p
-          className={`text-sm sm:text-base leading-relaxed font-normal ${
-            isVibrant
-              ? "text-purple-100/90"
-              : "text-[#473b64] dark:text-zinc-300/90"
-          }`}
-        >
-          {description}
-        </p>
+          {/* Content Block at bottom */}
+          <div className="relative z-10 space-y-3 mt-auto">
+            {/* Title */}
+            <h3
+              className={`text-xl sm:text-2xl font-bold tracking-tight leading-snug ${
+                isVibrant ? "text-white" : "text-[#180e32] dark:text-white"
+              }`}
+            >
+              {title}
+            </h3>
 
-        {/* Metric badge */}
-        <div className="pt-2">
-          <span
-            className={`inline-block font-mono text-xs sm:text-sm font-bold tracking-wider ${
-              isVibrant
-                ? "text-white bg-white/15 px-2.5 py-1 rounded-md backdrop-blur-xs"
-                : "text-[#3b1778] dark:text-purple-200 bg-black/5 dark:bg-white/10 px-2.5 py-1 rounded-md"
-            }`}
-          >
-            {metric}
-          </span>
-        </div>
-      </div>
+            {/* Description */}
+            <p
+              className={`text-sm sm:text-base leading-relaxed font-normal ${
+                isVibrant
+                  ? "text-purple-100/90"
+                  : "text-[#473b64] dark:text-zinc-300/90"
+              }`}
+            >
+              {description}
+            </p>
+
+            {/* Metric badge */}
+            <div className="pt-2">
+              <span
+                className={`inline-block font-mono text-xs sm:text-sm font-bold tracking-wider ${
+                  isVibrant
+                    ? "text-white bg-white/15 px-2.5 py-1 rounded-md backdrop-blur-xs"
+                    : "text-[#3b1778] dark:text-purple-200 bg-black/5 dark:bg-white/10 px-2.5 py-1 rounded-md"
+                }`}
+              >
+                {metric}
+              </span>
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          {/* Content Block at top */}
+          <div className="relative z-10 space-y-3 mb-auto">
+            {/* Title */}
+            <h3
+              className={`text-xl sm:text-2xl font-bold tracking-tight leading-snug ${
+                isVibrant ? "text-white" : "text-[#180e32] dark:text-white"
+              }`}
+            >
+              {title}
+            </h3>
+
+            {/* Description */}
+            <p
+              className={`text-sm sm:text-base leading-relaxed font-normal ${
+                isVibrant
+                  ? "text-purple-100/90"
+                  : "text-[#473b64] dark:text-zinc-300/90"
+              }`}
+            >
+              {description}
+            </p>
+
+            {/* Metric badge */}
+            <div className="pt-2">
+              <span
+                className={`inline-block font-mono text-xs sm:text-sm font-bold tracking-wider ${
+                  isVibrant
+                    ? "text-white bg-white/15 px-2.5 py-1 rounded-md backdrop-blur-xs"
+                    : "text-[#3b1778] dark:text-purple-200 bg-black/5 dark:bg-white/10 px-2.5 py-1 rounded-md"
+                }`}
+              >
+                {metric}
+              </span>
+            </div>
+          </div>
+
+          {/* 3D Model in free bottom space */}
+          <div className="w-full h-[220px] sm:h-[240px] relative z-10 flex items-center justify-center select-none mt-2 -mb-1">
+            <Card3DCanvas type={modelType} isVibrant={isVibrant} />
+          </div>
+        </>
+      )}
     </motion.div>
   );
 }
