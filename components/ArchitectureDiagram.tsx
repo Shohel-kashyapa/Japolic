@@ -32,7 +32,7 @@ const nodes: NodeData[] = [
     yPercent: 16,
     floatDelay: 0,
     duration: 4.2,
-    glowColor: "rgba(239, 68, 68, 0.45)", // Coral/Red glow like reference
+    glowColor: "rgba(239, 68, 68, 0.45)", // Coral/Red glow
     svgType: "compute",
   },
   {
@@ -46,7 +46,7 @@ const nodes: NodeData[] = [
     yPercent: 44,
     floatDelay: 0.6,
     duration: 4.8,
-    glowColor: "rgba(249, 115, 22, 0.45)", // Amber/Orange glow like reference
+    glowColor: "rgba(249, 115, 22, 0.45)", // Amber/Orange glow
     svgType: "storage",
   },
   {
@@ -60,7 +60,7 @@ const nodes: NodeData[] = [
     yPercent: 34,
     floatDelay: 1.2,
     duration: 4.5,
-    glowColor: "rgba(56, 189, 248, 0.45)", // Cyan/Ice blue glow like reference
+    glowColor: "rgba(56, 189, 248, 0.45)", // Cyan/Ice blue glow
     svgType: "ai",
   },
   {
@@ -88,7 +88,7 @@ const nodes: NodeData[] = [
     yPercent: 74,
     floatDelay: 1.4,
     duration: 4.6,
-    glowColor: "rgba(217, 70, 239, 0.45)", // Magenta/Purple glow like reference
+    glowColor: "rgba(217, 70, 239, 0.45)", // Magenta/Purple glow
     svgType: "ring",
   },
   {
@@ -125,18 +125,39 @@ export function ArchitectureDiagram() {
   const [activeNode, setActiveNode] = useState<NodeData | null>(null);
 
   // SVG dimensions: 1000 x 600
-  // Line paths connecting nodes with rounded 90-degree elbows matching user reference image
-  const mainSpinePath =
-    "M 0,265 L 150,265 Q 180,265 180,240 L 180,130 Q 180,95 215,95 L 330,95 Q 360,95 360,115 L 360,150 Q 360,185 395,185 L 450,185 Q 480,185 480,205 L 480,250 Q 480,270 460,290 L 460,380 Q 460,440 510,440 L 540,440";
-
-  const lowerLoopPath =
-    "M 540,440 Q 580,440 600,470 L 600,530 Q 600,560 635,560 L 650,560 Q 680,560 680,530 L 680,360 Q 680,330 710,330 L 760,330 Q 780,330 780,310 L 780,270";
+  // Continuous single master pipeline starting from the left and navigating through all nodes
+  const fullConduitPath =
+    "M 0,265 L 150,265 Q 180,265 180,240 L 180,130 Q 180,95 215,95 L 330,95 Q 360,95 360,115 L 360,150 Q 360,185 395,185 L 450,185 Q 480,185 480,205 L 480,250 Q 480,270 460,290 L 460,380 Q 460,440 510,440 L 540,440 Q 580,440 600,470 L 600,530 Q 600,560 635,560 L 650,560 Q 680,560 680,530 L 680,360 Q 680,330 710,330 L 760,330 Q 780,330 780,310 L 780,270";
 
   const cacheBranchPath =
     "M 180,265 L 180,380 Q 180,420 215,420 L 290,420 Q 320,420 320,440 L 320,470";
 
   const metaBranchPath =
     "M 680,440 L 780,440 Q 820,440 835,460 L 840,490";
+
+  // Loading animation: line fills from 0 to 1, pauses at 100% full, then fades and repeats
+  const loadingTransition = {
+    duration: 4.5,
+    repeat: Infinity,
+    ease: "easeInOut" as const,
+    times: [0, 0.72, 0.88, 1],
+  };
+
+  const branchCacheTransition = {
+    duration: 4.5,
+    repeat: Infinity,
+    ease: "easeInOut" as const,
+    delay: 0.6,
+    times: [0, 0.65, 0.85, 1],
+  };
+
+  const branchMetaTransition = {
+    duration: 4.5,
+    repeat: Infinity,
+    ease: "easeInOut" as const,
+    delay: 2.2,
+    times: [0, 0.65, 0.85, 1],
+  };
 
   return (
     <section id="solutions" className="relative pt-8 pb-16 md:pt-12 md:pb-24 overflow-hidden">
@@ -206,7 +227,7 @@ export function ArchitectureDiagram() {
               <linearGradient id="coral-amber-grad" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stopColor="#f97316" />
                 <stop offset="35%" stopColor="#fb923c" />
-                <stop offset="70%" stopColor="#f43f5e" />
+                <stop offset="65%" stopColor="#f43f5e" />
                 <stop offset="100%" stopColor="#c084fc" />
               </linearGradient>
 
@@ -229,57 +250,204 @@ export function ArchitectureDiagram() {
               <line x1="450" y1="0" x2="850" y2="600" stroke="currentColor" strokeWidth="0.8" strokeDasharray="4 8" />
             </g>
 
-            {/* LAYER 1: Ambient Wide Glow on Floor (under glowing lines) */}
-            <g opacity="0.4" className="dark:opacity-55" filter="url(#neon-glow-wide)">
-              <path d={mainSpinePath} stroke="#ea580c" strokeWidth="18" fill="none" strokeLinecap="round" />
-              <path d={lowerLoopPath} stroke="#f43f5e" strokeWidth="18" fill="none" strokeLinecap="round" />
-              <path d={cacheBranchPath} stroke="#f97316" strokeWidth="16" fill="none" strokeLinecap="round" />
-              <path d={metaBranchPath} stroke="#a855f7" strokeWidth="16" fill="none" strokeLinecap="round" />
+            {/* BASE LAYER: Faint Pipeline Tracks (always visible for visual structure) */}
+            <g opacity="0.18" className="dark:opacity-25">
+              <path d={fullConduitPath} stroke="#f97316" strokeWidth="4.5" fill="none" strokeLinecap="round" />
+              <path d={cacheBranchPath} stroke="#f97316" strokeWidth="4" fill="none" strokeLinecap="round" />
+              <path d={metaBranchPath} stroke="#c084fc" strokeWidth="4" fill="none" strokeLinecap="round" />
             </g>
 
-            {/* LAYER 2: Medium Luminous Conduit Sheath */}
-            <g opacity="0.8" filter="url(#pipe-glow-medium)">
-              <path d={mainSpinePath} stroke="url(#coral-amber-grad)" strokeWidth="6" fill="none" strokeLinecap="round" />
-              <path d={lowerLoopPath} stroke="url(#purple-violet-grad)" strokeWidth="6" fill="none" strokeLinecap="round" />
-              <path d={cacheBranchPath} stroke="#f97316" strokeWidth="5.5" fill="none" strokeLinecap="round" />
-              <path d={metaBranchPath} stroke="#c084fc" strokeWidth="5.5" fill="none" strokeLinecap="round" />
-            </g>
-
-            {/* LAYER 3: Solid Sharp Pipe Body */}
-            <g>
-              <path d={mainSpinePath} stroke="#fdba74" strokeWidth="3" fill="none" strokeLinecap="round" />
-              <path d={lowerLoopPath} stroke="#f472b6" strokeWidth="3" fill="none" strokeLinecap="round" />
-              <path d={cacheBranchPath} stroke="#fdba74" strokeWidth="2.8" fill="none" strokeLinecap="round" />
-              <path d={metaBranchPath} stroke="#e9d5ff" strokeWidth="2.8" fill="none" strokeLinecap="round" />
-            </g>
-
-            {/* LAYER 4: Brilliant White-Hot Glowing Core Line */}
-            <g opacity="0.95">
-              <path d={mainSpinePath} stroke="#ffffff" strokeWidth="1.4" fill="none" strokeLinecap="round" />
-              <path d={lowerLoopPath} stroke="#ffffff" strokeWidth="1.4" fill="none" strokeLinecap="round" />
-              <path d={cacheBranchPath} stroke="#ffffff" strokeWidth="1.2" fill="none" strokeLinecap="round" />
-              <path d={metaBranchPath} stroke="#ffffff" strokeWidth="1.2" fill="none" strokeLinecap="round" />
-            </g>
-
-            {/* LAYER 5: Animated Streaming Light Data Packets */}
-            <g opacity="0.9">
-              <path
-                d={mainSpinePath}
-                stroke="#ffffff"
-                strokeWidth="2.6"
+            {/* ANIMATED LOADING LAYER 1: Ambient Wide Floor Glow (progressively loads start to end) */}
+            <g opacity="0.45" className="dark:opacity-65" filter="url(#neon-glow-wide)">
+              <motion.path
+                d={fullConduitPath}
+                stroke="#ea580c"
+                strokeWidth="18"
                 fill="none"
                 strokeLinecap="round"
-                strokeDasharray="24 160"
-                className="animate-data-pulse"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{
+                  pathLength: [0, 1, 1, 0],
+                  opacity: [0.3, 1, 1, 0],
+                }}
+                transition={loadingTransition}
               />
-              <path
-                d={lowerLoopPath}
-                stroke="#ffffff"
-                strokeWidth="2.6"
+              <motion.path
+                d={cacheBranchPath}
+                stroke="#ea580c"
+                strokeWidth="16"
                 fill="none"
                 strokeLinecap="round"
-                strokeDasharray="24 160"
-                className="animate-data-pulse-fast"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{
+                  pathLength: [0, 1, 1, 0],
+                  opacity: [0.3, 1, 1, 0],
+                }}
+                transition={branchCacheTransition}
+              />
+              <motion.path
+                d={metaBranchPath}
+                stroke="#c084fc"
+                strokeWidth="16"
+                fill="none"
+                strokeLinecap="round"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{
+                  pathLength: [0, 1, 1, 0],
+                  opacity: [0.3, 1, 1, 0],
+                }}
+                transition={branchMetaTransition}
+              />
+            </g>
+
+            {/* ANIMATED LOADING LAYER 2: Luminous Neon Conduit (loads start to end) */}
+            <g opacity="0.85" filter="url(#pipe-glow-medium)">
+              <motion.path
+                d={fullConduitPath}
+                stroke="url(#coral-amber-grad)"
+                strokeWidth="6"
+                fill="none"
+                strokeLinecap="round"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{
+                  pathLength: [0, 1, 1, 0],
+                  opacity: [0.5, 1, 1, 0],
+                }}
+                transition={loadingTransition}
+              />
+              <motion.path
+                d={cacheBranchPath}
+                stroke="#f97316"
+                strokeWidth="5"
+                fill="none"
+                strokeLinecap="round"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{
+                  pathLength: [0, 1, 1, 0],
+                  opacity: [0.5, 1, 1, 0],
+                }}
+                transition={branchCacheTransition}
+              />
+              <motion.path
+                d={metaBranchPath}
+                stroke="#c084fc"
+                strokeWidth="5"
+                fill="none"
+                strokeLinecap="round"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{
+                  pathLength: [0, 1, 1, 0],
+                  opacity: [0.5, 1, 1, 0],
+                }}
+                transition={branchMetaTransition}
+              />
+            </g>
+
+            {/* ANIMATED LOADING LAYER 3: Solid Sharp Pipe Body */}
+            <g>
+              <motion.path
+                d={fullConduitPath}
+                stroke="#fdba74"
+                strokeWidth="3.2"
+                fill="none"
+                strokeLinecap="round"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{
+                  pathLength: [0, 1, 1, 0],
+                  opacity: [0.6, 1, 1, 0],
+                }}
+                transition={loadingTransition}
+              />
+              <motion.path
+                d={cacheBranchPath}
+                stroke="#fdba74"
+                strokeWidth="2.8"
+                fill="none"
+                strokeLinecap="round"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{
+                  pathLength: [0, 1, 1, 0],
+                  opacity: [0.6, 1, 1, 0],
+                }}
+                transition={branchCacheTransition}
+              />
+              <motion.path
+                d={metaBranchPath}
+                stroke="#f5d0fe"
+                strokeWidth="2.8"
+                fill="none"
+                strokeLinecap="round"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{
+                  pathLength: [0, 1, 1, 0],
+                  opacity: [0.6, 1, 1, 0],
+                }}
+                transition={branchMetaTransition}
+              />
+            </g>
+
+            {/* ANIMATED LOADING LAYER 4: Brilliant White-Hot Glowing Core Line */}
+            <g opacity="0.95">
+              <motion.path
+                d={fullConduitPath}
+                stroke="#ffffff"
+                strokeWidth="1.5"
+                fill="none"
+                strokeLinecap="round"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{
+                  pathLength: [0, 1, 1, 0],
+                  opacity: [0.7, 1, 1, 0],
+                }}
+                transition={loadingTransition}
+              />
+              <motion.path
+                d={cacheBranchPath}
+                stroke="#ffffff"
+                strokeWidth="1.3"
+                fill="none"
+                strokeLinecap="round"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{
+                  pathLength: [0, 1, 1, 0],
+                  opacity: [0.7, 1, 1, 0],
+                }}
+                transition={branchCacheTransition}
+              />
+              <motion.path
+                d={metaBranchPath}
+                stroke="#ffffff"
+                strokeWidth="1.3"
+                fill="none"
+                strokeLinecap="round"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{
+                  pathLength: [0, 1, 1, 0],
+                  opacity: [0.7, 1, 1, 0],
+                }}
+                transition={branchMetaTransition}
+              />
+            </g>
+
+            {/* ANIMATED LOADING LAYER 5: Bright Leading Comet Head riding at the front of the loading wave */}
+            <g opacity="0.95" filter="url(#pipe-glow-medium)">
+              <motion.path
+                d={fullConduitPath}
+                stroke="#ffffff"
+                strokeWidth="4"
+                fill="none"
+                strokeLinecap="round"
+                initial={{ pathLength: 0.1, pathOffset: 0, opacity: 0 }}
+                animate={{
+                  pathOffset: [0, 0.9],
+                  opacity: [0.3, 1, 1, 0],
+                }}
+                transition={{
+                  duration: 4.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  times: [0, 0.72],
+                }}
               />
             </g>
 
@@ -323,7 +491,6 @@ export function ArchitectureDiagram() {
           </svg>
 
           {/* Floating Callout Badges Matching Reference Screenshot */}
-          {/* Callout 1 (Top Center): WE PARTNER WITH YOU TO ENSURE SUCCESS */}
           <motion.div
             initial={{ opacity: 0, y: -6 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -336,7 +503,6 @@ export function ArchitectureDiagram() {
             </span>
           </motion.div>
 
-          {/* Callout 2 (Bottom Left): BREAK DOWN SILOS BETWEEN PRODUCT, DESIGN, AND ENGINEERING */}
           <motion.div
             initial={{ opacity: 0, y: 6 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -501,7 +667,6 @@ function IsometricNodeGraphic({
 
       {type === "storage" && (
         <g opacity={isHovered ? "1" : "0.9"}>
-          {/* Storage Database Cylinder Rings matching user image */}
           <ellipse cx="52" cy="20" rx="14" ry="5.5" fill="#181329" stroke="#fb923c" strokeWidth="1" />
           <ellipse cx="52" cy="26" rx="14" ry="5.5" fill="none" stroke="#fb923c" strokeWidth="1" />
           <ellipse cx="52" cy="32" rx="14" ry="5.5" fill="none" stroke="#fdba74" strokeWidth="1" />
@@ -511,7 +676,6 @@ function IsometricNodeGraphic({
 
       {type === "ai" && (
         <g opacity={isHovered ? "1" : "0.9"}>
-          {/* Handshake / AI Mesh */}
           <circle cx="52" cy="26" r="3.5" fill="#0284c7" stroke="#ffffff" strokeWidth="1" />
           <circle cx="38" cy="24" r="2" fill="#38bdf8" />
           <circle cx="66" cy="24" r="2" fill="#38bdf8" />
@@ -526,7 +690,6 @@ function IsometricNodeGraphic({
 
       {type === "s3" && (
         <g opacity={isHovered ? "1" : "0.9"}>
-          {/* Rocket / Launch Icon */}
           <path d="M52 14 C56 18 58 24 57 32 L47 32 C46 24 48 18 52 14 Z" fill="#1a142e" stroke="#c084fc" strokeWidth="1" />
           <line x1="47" y1="32" x2="43" y2="38" stroke="#a855f7" strokeWidth="1" />
           <line x1="57" y1="32" x2="61" y2="38" stroke="#a855f7" strokeWidth="1" />
@@ -548,7 +711,6 @@ function IsometricNodeGraphic({
 
       {type === "ring" && (
         <g opacity={isHovered ? "1" : "0.9"}>
-          {/* Star Gear Ring cluster matching user image */}
           <ellipse cx="52" cy="26" rx="16" ry="7" fill="none" stroke="#e879f9" strokeWidth="1.2" strokeDasharray="4 2" />
           <circle cx="52" cy="26" r="4" fill="#a21caf" stroke="#ffffff" strokeWidth="1" />
           <circle cx="38" cy="26" r="1.8" fill="#f0abfc" />
@@ -560,7 +722,6 @@ function IsometricNodeGraphic({
 
       {type === "database" && (
         <g opacity={isHovered ? "1" : "0.9"}>
-          {/* Milestone Flag on Mountain matching user image */}
           <polygon points="40,36 50,22 60,36" fill="#1b1430" stroke="#c084fc" strokeWidth="1" />
           <polygon points="56,36 64,28 72,36" fill="#1b1430" stroke="#a855f7" strokeWidth="1" />
           <line x1="50" y1="22" x2="50" y2="14" stroke="#ffffff" strokeWidth="1" />
