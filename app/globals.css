@@ -93,3 +93,31 @@ h1, h2, h3, h4, .font-heading {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+/* Isometric Pipeline Animated Light Pulses */
+@keyframes dataPulse {
+  0% {
+    stroke-dashoffset: 260;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-data-pulse {
+  animation: dataPulse 4s linear infinite;
+}
+
+@keyframes dataPulseFast {
+  0% {
+    stroke-dashoffset: 260;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-data-pulse-fast {
+  animation: dataPulseFast 2.8s linear infinite;
+}
+
