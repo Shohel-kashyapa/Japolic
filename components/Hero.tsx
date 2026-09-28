@@ -13,7 +13,7 @@ export function Hero() {
         className="pointer-events-none absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] md:w-[900px] h-[350px] bg-gradient-to-b from-[#7928ca]/15 via-[#5e1ee3]/10 to-transparent blur-[120px] rounded-full dark:opacity-80 opacity-40 -z-10"
       />
 
-      <div className="max-w-5xl mx-auto flex flex-col items-center">
+      <div className="max-w-6xl mx-auto flex flex-col items-center w-full px-2">
         {/* Top Badge: HIGH-PERFORMANCE SHARED STORAGE */}
         <motion.div
           initial={{ opacity: 0, y: -12 }}
@@ -29,18 +29,22 @@ export function Hero() {
           </span>
         </motion.div>
 
-        {/* Hero Headline */}
+        {/* Hero Headline - Exactly Two Lines, Cleanly Fitted Without Clipping */}
         <motion.h1
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-          className="text-3xl sm:text-5xl md:text-6xl lg:text-[4.25rem] font-black tracking-tight leading-[1.08] max-w-4xl"
+          className="font-heading font-black tracking-tight leading-[1.12] w-full text-2xl sm:text-3xl md:text-[2.5rem] lg:text-[3.1rem] xl:text-[3.45rem]"
         >
-          <span className="hidden dark:inline metallic-text-gradient-dark">
-            STORAGE THAT MOVES AT THE SPEED OF YOUR COMPUTE
+          <span className="hidden dark:block metallic-text-gradient-dark">
+            <span className="inline-block whitespace-normal sm:whitespace-nowrap">STORAGE THAT MOVES AT THE SPEED</span>
+            <br className="hidden sm:inline" />{" "}
+            <span className="inline-block whitespace-normal sm:whitespace-nowrap">OF YOUR COMPUTE</span>
           </span>
-          <span className="dark:hidden metallic-text-gradient-light">
-            STORAGE THAT MOVES AT THE SPEED OF YOUR COMPUTE
+          <span className="dark:hidden block metallic-text-gradient-light">
+            <span className="inline-block whitespace-normal sm:whitespace-nowrap">STORAGE THAT MOVES AT THE SPEED</span>
+            <br className="hidden sm:inline" />{" "}
+            <span className="inline-block whitespace-normal sm:whitespace-nowrap">OF YOUR COMPUTE</span>
           </span>
         </motion.h1>
 
