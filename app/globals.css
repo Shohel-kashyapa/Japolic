@@ -1,26 +1,66 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-serif: var(--font-serif), Georgia, Cambria, "Times New Roman", Times, serif;
+
+  --color-japolic-purple: #5e1ee3;
+  --color-japolic-purple-hover: #6d2af0;
+  --color-japolic-violet: #7928ca;
+  --color-japolic-dark: #07050d;
+  --color-japolic-surface-dark: #120e20;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-primary: #ffffff;
+  --text-primary: #0a0712;
+  --text-secondary: #57536e;
+  --border-subtle: rgba(0, 0, 0, 0.08);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.dark {
+  --bg-primary: #07050d;
+  --text-primary: #f5f4fb;
+  --text-secondary: #8e8aab;
+  --border-subtle: rgba(255, 255, 255, 0.1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(120, 80, 220, 0.25);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(120, 80, 220, 0.45);
+}
+
+/* Chrome/metallic hero text gradient for dark mode */
+.metallic-text-gradient-dark {
+  background: linear-gradient(180deg, #ffffff 0%, #ffffff 45%, #d1c9ef 70%, #9572ea 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Vibrant violet hero text gradient for light mode */
+.metallic-text-gradient-light {
+  background: linear-gradient(180deg, #4d16d1 0%, #581cd8 40%, #6c24ea 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
