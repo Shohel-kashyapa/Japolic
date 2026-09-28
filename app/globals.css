@@ -2,10 +2,34 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@font-face {
+  font-family: 'Whyte Inktrap';
+  src: url('/fonts/WhyteInktrap-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Whyte Inktrap';
+  src: url('/fonts/WhyteInktrap-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Whyte Inktrap';
+  src: url('/fonts/WhyteInktrap-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   --font-sans: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-heading: var(--font-whyte-inktrap), "Whyte Inktrap", var(--font-inter), system-ui, sans-serif;
   --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-serif: var(--font-serif), Georgia, Cambria, "Times New Roman", Times, serif;
 
   --color-japolic-purple: #5e1ee3;
   --color-japolic-purple-hover: #6d2af0;
@@ -34,6 +58,11 @@ html {
 
 body {
   overflow-x: hidden;
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: var(--font-heading);
 }
 
 /* Custom scrollbar */
@@ -53,14 +82,14 @@ body {
 
 /* Chrome/metallic hero text gradient for dark mode */
 .metallic-text-gradient-dark {
-  background: linear-gradient(180deg, #ffffff 0%, #ffffff 45%, #d1c9ef 70%, #9572ea 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #f0ecfa 40%, #c5b5f4 75%, #8c6ae6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 /* Vibrant violet hero text gradient for light mode */
 .metallic-text-gradient-light {
-  background: linear-gradient(180deg, #4d16d1 0%, #581cd8 40%, #6c24ea 100%);
+  background: linear-gradient(180deg, #4c17cf 0%, #5d1de5 45%, #6d26ee 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

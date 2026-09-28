@@ -3,7 +3,7 @@ import React from "react";
 export function JapolicLogo({ className = "h-7 w-auto", textClassName = "" }: { className?: string; textClassName?: string }) {
   return (
     <div className={`flex items-center gap-1.5 select-none ${className}`}>
-      <span className="font-extrabold tracking-tight text-2xl flex items-center">
+      <span className="font-heading font-black tracking-tight text-2xl flex items-center" style={{ fontFamily: "var(--font-heading)" }}>
         <span className="text-[#6420f0] dark:text-[#7f39fb] transition-colors">J</span>
         <span className={`text-[#090614] dark:text-white transition-colors ${textClassName}`}>apolic</span>
       </span>

@@ -1,7 +1,35 @@
 import type { Metadata } from "next";
-import { Inter, IBM_Plex_Mono, Instrument_Serif } from "next/font/google";
+import localFont from "next/font/local";
+import { Inter, IBM_Plex_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
+
+const whyteInktrap = localFont({
+  src: [
+    {
+      path: "./fonts/WhyteInktrap-Medium.ttf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "./fonts/WhyteInktrap-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "./fonts/WhyteInktrap-Black.ttf",
+      weight: "900",
+      style: "normal",
+    },
+    {
+      path: "./fonts/WhyteInktrap-Super.ttf",
+      weight: "950",
+      style: "normal",
+    },
+  ],
+  variable: "--font-whyte-inktrap",
+  display: "swap",
+});
 
 const inter = Inter({
   variable: "--font-inter",
@@ -13,13 +41,6 @@ const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-mono",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
-
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-serif",
-  subsets: ["latin"],
-  weight: "400",
   display: "swap",
 });
 
@@ -46,7 +67,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${inter.variable} ${ibmPlexMono.variable} ${instrumentSerif.variable}`}
+      className={`${whyteInktrap.variable} ${inter.variable} ${ibmPlexMono.variable}`}
     >
       <body className="min-h-screen bg-[#ffffff] text-[#0f0b1a] antialiased selection:bg-[#7928ca]/20 selection:text-[#7928ca] dark:bg-[#07050d] dark:text-[#f3f1fa] font-sans transition-colors duration-300">
         <ThemeProvider
