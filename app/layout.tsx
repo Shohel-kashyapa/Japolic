@@ -56,6 +56,11 @@ export const metadata: Metadata = {
     "low latency storage",
     "S3 compatible",
   ],
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 export default function RootLayout({

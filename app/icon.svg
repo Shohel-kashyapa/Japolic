@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <linearGradient id="japolicBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#150a2e"/>
+      <stop offset="100%" stop-color="#080314"/>
+    </linearGradient>
+    <linearGradient id="japolicJ" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c084fc"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Squircle Base -->
+  <rect width="32" height="32" rx="8" fill="url(#japolicBg)"/>
+  <rect width="30" height="30" x="1" y="1" rx="7" fill="none" stroke="#a855f7" stroke-opacity="0.35" stroke-width="1"/>
+
+  <!-- Futuristic Geometric 'J' Mark -->
+  <path d="M19 7h4.5v11.5a6.5 6.5 0 0 1-6.5 6.5h-1a6 6 0 0 1-6-6v-1.5h4.5v1.5a1.5 1.5 0 0 0 1.5 1.5h1a2 2 0 0 0 2-2V7z" fill="url(#japolicJ)"/>
+
+  <!-- Speed of Compute Cyan Energy Accent -->
+  <circle cx="21.25" cy="7" r="1.5" fill="#38bdf8"/>
+</svg>
