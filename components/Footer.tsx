@@ -135,7 +135,7 @@ export function Footer() {
 
         {/* Bottom Copyright Text - Unbordered, cleanly centered */}
         <div className="relative z-10 pt-10 sm:pt-14 pb-2 text-center text-xs sm:text-sm text-zinc-300/70 font-normal">
-          <span>Made with ♥ in Sri Lanka Copyright © 2026</span>
+          <span>Made with ♥ by <span className="text-zinc-200 font-medium">Shohel Kashyapa</span> in Sri Lanka Copyright © 2026</span>
         </div>
       </div>
     </footer>
