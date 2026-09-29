@@ -121,3 +121,24 @@ h1, h2, h3, h4, .font-heading {
   animation: dataPulseFast 2.8s linear infinite;
 }
 
+/* Infinite Horizontal Marquee Side-Scroll */
+@keyframes marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 34s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
