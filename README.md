@@ -36,31 +36,6 @@ The website is designed to work across:
 💻 Laptop
 📱 Mobile
 📲 Tablet
-📂 Project Structure
-📦 project
- ┣ 📂 public
- ┣ 📂 src
- ┃ ┣ 📂 components
- ┃ ┣ 📂 assets
- ┃ ┗ 📜 App
- ┣ 📜 package.json
- ┣ 📜 vite.config
- ┗ 📜 README.md
-⚙️ Getting Started
-1️⃣ Clone the repository
-git clone YOUR_GITHUB_REPOSITORY_URL
-2️⃣ Navigate to the project
-cd YOUR_PROJECT_NAME
-3️⃣ Install dependencies
-npm install
-4️⃣ Start the development server
-npm run dev
-
-The project will then be available locally 🚀
-
-📸 Preview
-
-Add screenshots or GIFs of the project here.
 
 👨‍💻 Created By
 
